@@ -85,17 +85,52 @@ describe('XO', function() {
     })
     context('winning history', function() {
       beforeEach(function(){
-        xo.remember('O OX X   ', 1, 'W');
-        xo.load_field('O OX X   ');
+        xo.remember('O  X X  O', 4, 'W');
+        xo.load_field('O  X X  O');
       });
       it('knows how it won last time', function() {
-        xo.won(1).should.be.true;
+        xo.won(4).should.be.true;
       });
-      // TODO: this test broke when made random pecking order
       it('knows how to win again', function() {
-        xo.move().should.equal(1);
+        xo.move().should.equal(4);
       });
+      // it('even knows when pattern is reversed!', function() {
+      //   xo.load_field('  OX XO  ');
+      //   xo.move().should.equal(4);
+      // })
     })
+    context('recognizes a pattern', function() {
+      it('can find the vertical mirror of a field', function() {
+        xo.vert_mirror('ABCDEFGHI').should.equal('CBAFEDIHG');
+      });
+      it('can find the horizontal mirror of a field', function() {
+        xo.horz_mirror('ABCDEFGHI').should.equal('GHIDEFABC');
+      });
+      it('can rotate the field 90 degrees', function() {
+        xo.rotate_90('ABCDEFGHI').should.equal('GDAHEBIFC');
+      });
+      it('can rotate the field 180 degrees', function() {
+        xo.rotate_180('ABCDEFGHI').should.equal('IHGFEDCBA');
+      });
+      it('can rotate the field 270 degrees', function() {
+        xo.rotate_270('ABCDEFGHI').should.equal('CFIBEHADG');
+      });
+      it('knows a position mirrored vertically', function() {
+        xo.position_vert_mirror(0).should.equal(2);
+      });
+      it('knows a position mirrored horizontally', function() {
+        xo.position_horz_mirror(0).should.equal(6);
+      });
+      it('knows a position rotated 90', function() {
+        xo.position_rotate_90(0).should.equal(6);
+      });
+      it('knows a position rotated 180', function() {
+        xo.position_rotate_180(0).should.equal(8);
+      });
+      it('knows a position rotated 270', function() {
+        xo.position_rotate_270(0).should.equal(2);
+      });
+    });
   });
 });
 
